@@ -22,4 +22,4 @@
 *   [Взаимодействие сервисов через очередь сообщений (RabbitMQ)](./project-lis/message-broker.md) *(в разработке)*
 
 ### Технические руководства (Tech Writing)
-*   [Сравнение REST и SOAP API: Шпаргалка](./tech-writing/rest-vs-soap.md) *(скоро)*
+*   [Сравнение REST и SOAP API: Шпаргалка](./tech-writing/rest-vs-soap.md)
