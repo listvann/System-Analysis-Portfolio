@@ -21,4 +21,4 @@ For my main pet project, I am designing a LIS architecture based on real-world l
 * [Service Interaction via Message Brokers (RabbitMQ)](./project-lis/message-broker_en.md) *(in progress)*
 
 ### Technical Guides (Tech Writing)
-* [REST vs SOAP API: A Beginner's Guide](./tech-writing/rest-vs-soap_en.md) *(coming soon)*
+* [REST vs SOAP API: A Beginner's Guide](./tech-writing/rest-vs-soap_en.md) 
