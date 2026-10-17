@@ -16,7 +16,7 @@ I have 7 years of practical experience as a medical laboratory technician in PCR
 
 ## 📂 Portfolio: Laboratory Information System (LIS)
 For my main pet project, I am designing a LIS architecture based on real-world laboratory workflows:
-* [Database Architecture (ERD & SQL queries)](./project-lis/database_en.md) *Database Architecture (ERD & SQL queries)*
+* [Database Architecture (ERD & SQL queries)](./project-lis/database_en.md) *(Database Architecture (ERD & SQL queries))*
 * [Integration Specification: Results Delivery (REST API)](./project-lis/api-results_en.md) *(in progress)*
 * [Service Interaction via Message Brokers (RabbitMQ)](./project-lis/message-broker_en.md) *(in progress)*
 
