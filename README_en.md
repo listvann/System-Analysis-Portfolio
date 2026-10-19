@@ -18,6 +18,7 @@ I have 7 years of practical experience as a medical laboratory technician in PCR
 For my main pet project, I am designing a LIS architecture based on real-world laboratory workflows:
 * [Stakeholder Register & Power/Interest Grid](./project-lis/stakeholders_en.md)
 * [Stakeholder Interview Guide (5 Whys Technique)](./requirements/interview-guide_en.md)
+* [Meeting Minutes](./requirements/meeting-notes_en.md)
 * [Database Architecture (ERD & SQL queries)](./project-lis/database_en.md) 
 * [Integration Specification: Results Delivery (REST API)](./project-lis/api-results_en.md) *(in progress)*
 * [Service Interaction via Message Brokers (RabbitMQ)](./project-lis/message-broker_en.md) *(in progress)*
