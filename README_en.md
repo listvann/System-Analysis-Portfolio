@@ -20,7 +20,7 @@ For my main pet project, I am designing a LIS architecture based on real-world l
 * [Stakeholder Interview Guide (5 Whys Technique)](./requirements/interview-guide_en.md)
 * [Meeting Minutes](./requirements/meeting-notes_en.md)
 * [Database Architecture (ERD & SQL queries)](./project-lis/database_en.md) 
-* [Integration Specification: Results Delivery (REST API)](./project-lis/api-results_en.md) *(in progress)*
+* [Integration Specification: Results Delivery (REST API)](./project-lis/api-results_en.md)
 * [Service Interaction via Message Brokers (RabbitMQ)](./project-lis/message-broker_en.md) *(in progress)*
 
 ### Technical Guides (Tech Writing)
