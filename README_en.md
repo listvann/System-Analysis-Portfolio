@@ -1,6 +1,6 @@
 *[🇷🇺 Русский](README.md) ∙ [🇬🇧 English](README_en.md)*
 
-# Lee-Iu-Kun Anna – Junior System Analyst / Technical Writer
+# Anna Lee-Iu-Kun – Junior System Analyst / Technical Writer
 
 Hi! I am a junior system analyst with a strong focus on creating well-structured and clear technical documentation.
 
