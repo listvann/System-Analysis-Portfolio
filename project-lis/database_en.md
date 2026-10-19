@@ -81,4 +81,4 @@ JOIN Orders o ON s.inz = o.inz
 JOIN Order_Items oi ON o.iln = oi.iln
 WHERE s.barcode = '123456789130';
 ```
-*(Visual ER Diagram will be added later)*
+![LIS Database ER Diagram](lis-database-er-diagram.png)
