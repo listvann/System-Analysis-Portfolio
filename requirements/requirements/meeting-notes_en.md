@@ -1,7 +1,7 @@
 # Meeting Minutes
 
-**Project:** Next-Gen Laboratory Information System (LIS) Development
-**Date:** October 26, 2026
+**Project:** Next-Gen Laboratory Information System (LIS) Development  
+**Date:** October 26, 2026  
 **Attendees:** 
 *   Anna Li-Yu-Kun (System Analyst)
 *   Dr. John Smith (Lab Manager)
