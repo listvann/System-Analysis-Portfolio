@@ -81,5 +81,5 @@ JOIN Orders o ON s.inz = o.inz
 JOIN Order_Items oi ON o.iln = oi.iln
 WHERE s.barcode = '123456789130';
 ```
-*(Визуальная ER-диаграмма будет добавлена позже)*
+![ER-диаграмма БД ЛИС](lis-database-er-diagram.png)
 
