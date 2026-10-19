@@ -18,9 +18,10 @@
 В качестве основного пет-проекта я проектирую архитектуру ЛИС, опираясь на свой опыт работы в лаборатории. Ниже представлены артефакты системы:
 
 * [Карта стейкхолдеров и матрица влияния (Power/Interest Grid)](./project-lis/stakeholders.md)
-*   [Архитектура Базы Данных (ER-диаграмма и SQL-запросы)](./project-lis/database.md) 
-*   [Спецификация интеграции: передача результатов (REST API)](./project-lis/api-results.md) *(в разработке)*
-*   [Взаимодействие сервисов через очередь сообщений (RabbitMQ)](./project-lis/message-broker.md) *(в разработке)*
+* [Скрипт интервью со стейкхолдером (Техника 5 Whys)](./requirements/interview-guide.md)
+* [Архитектура Базы Данных (ER-диаграмма и SQL-запросы)](./project-lis/database.md) 
+* [Спецификация интеграции: передача результатов (REST API)](./project-lis/api-results.md) *(в разработке)*
+* [Взаимодействие сервисов через очередь сообщений (RabbitMQ)](./project-lis/message-broker.md) *(в разработке)*
 
 ### Технические руководства (Tech Writing)
-*   [Сравнение REST и SOAP API: Шпаргалка](./tech-writing/rest-vs-soap.md)
+* [Сравнение REST и SOAP API: Шпаргалка](./tech-writing/rest-vs-soap.md)
