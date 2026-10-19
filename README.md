@@ -19,6 +19,7 @@
 
 * [Карта стейкхолдеров и матрица влияния (Power/Interest Grid)](./project-lis/stakeholders.md)
 * [Скрипт интервью со стейкхолдером (Техника 5 Whys)](./requirements/interview-guide.md)
+* [Протокол встречи](./requirements/meeting-notes.md)
 * [Архитектура Базы Данных (ER-диаграмма и SQL-запросы)](./project-lis/database.md) 
 * [Спецификация интеграции: передача результатов (REST API)](./project-lis/api-results.md) *(в разработке)*
 * [Взаимодействие сервисов через очередь сообщений (RabbitMQ)](./project-lis/message-broker.md) *(в разработке)*
