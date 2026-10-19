@@ -5,7 +5,7 @@
 **Attendees:** 
 *   Anna Li-Yu-Kun (System Analyst)
 *   Dr. John Smith (Lab Manager)
-
+ 
 ## 📌 Agenda
 *   Review of frequent Turnaround Time (TAT) violations in PCR testing.
 *   Identification of bottlenecks during the pre-analytical phase within the Accessioning department.
