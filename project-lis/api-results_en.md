@@ -60,3 +60,24 @@
 | `results[].value` | String | Yes | The actual test result value. |
 | `results[].test_status` | String | Yes | Status of the specific test (e.g., VALIDATED, REJECTED). |
 | `validation.doctor_full_name` | String | Yes | Full name of the Clinical Pathologist who interpreted and validated the result. |
+
+## Sequence Diagram
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Doctor as Clinical Pathologist
+    participant LIS as LIS (Laboratory)
+    participant EHR as EHR (Clinic)
+
+    Doctor->>LIS: Validate result (button click)
+    activate LIS
+    LIS->>LIS: Calculate reference ranges (DOB, gender)<br/>and generate JSON
+    LIS->>EHR: POST /api/v1/webhook/lab-results (JSON payload)
+    activate EHR
+    EHR->>EHR: Lookup patient profile by ILN<br/>and save result
+    EHR-->>LIS: 200 OK (Successfully received)
+    deactivate EHR
+    LIS-->>Doctor: UI: "Successfully sent to EHR" status
+    deactivate LIS
+```
