@@ -60,3 +60,24 @@
 | `results[].value` | String | Да | Фактический результат исследования. |
 | `results[].test_status` | String | Да | Статус конкретного теста (например, VALIDATED, REJECTED). |
 | `validation.doctor_full_name` | String | Да | ФИО врача КДЛ, проводившего интерпретацию и валидацию. |
+
+## Диаграмма последовательности (Sequence Diagram)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Doctor as Врач КДЛ
+    participant LIS as ЛИС (Лаборатория)
+    participant MIS as МИС (Клиника)
+
+    Doctor->>LIS: Валидация результата (кнопка)
+    activate LIS
+    LIS->>LIS: Расчет референсов (пол, возраст)<br/>и формирование JSON
+    LIS->>MIS: POST /api/v1/webhook/lab-results (передача JSON)
+    activate MIS
+    MIS->>MIS: Поиск ЭМК пациента по ИЛН<br/>и сохранение результата
+    MIS-->>LIS: 200 OK (Успешно получено)
+    deactivate MIS
+    LIS-->>Doctor: UI: Статус "Успешно отправлено в МИС"
+    deactivate LIS
+```
