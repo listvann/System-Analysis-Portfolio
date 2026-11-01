@@ -1,8 +1,8 @@
 ## Бизнес-процесс As-Is (До внедрения новой ЛИС)
 
 ```mermaid
-flowchart TD
-    classDef risk fill:#ffe6e6,stroke:#ff0000,stroke-width:2px;
+flowchart LR
+    classDef risk fill:#ffe6e6,stroke:#ff0000,stroke-width:2px,color:#000000;
 
     subgraph "Внешний контур (Клиника и Курьер)"
         A((Старт)) --> B[Оформление в МИС, забор БМ]
@@ -87,8 +87,8 @@ flowchart TD
 ## Бизнес-процесс To-Be (Оптимизированный процесс)
 
 ```mermaid
-flowchart TD
-    classDef automation fill:#e6ffe6,stroke:#00aa00,stroke-width:2px;
+flowchart LR
+    classDef automation fill:#e6ffe6,stroke:#00aa00,stroke-width:2px,color:#000000;
 
     subgraph "Внешний контур (Клиника и Курьер)"
         A((Старт)) --> B[Оформление в МИС без бумажных бланков<br/>Печать ИНЗ на пробирку]
