@@ -1,5 +1,7 @@
 ### Text Structure of the "As-Is" Business Process (Prior to New LIS Implementation)
-![PCR Testing Business Process As-Is](pcr-process-as-is-en.png)
+![PCR Testing Business Process As-Is](pcr-process-as-is-en.png)  
+📄 [Download high-resolution schema (PDF)](pcr-process-as-is-en.pdf)
+
 **1. Zone: Collection Site and Courier (External Contour)**
 * **Action 1:** Patient registration, biological specimen (BS) collection, printing of the paper requisition form.
 * **Action 2:** Courier picks up the cooler bag with manifests and transports it to the laboratory.
