@@ -16,13 +16,21 @@ The core of the system is a barcode generation algorithm that automates specimen
 
 ## Entity Descriptions (Tables)
 
-### 1. Reference & Routing
+### 1. Reference Data & Inventory
 **`Container_Routing`** (Routing Lookup Table)
 | Field | Data Type | Description |
 | :--- | :--- | :--- |
 | `container_code` | VARCHAR(3) | **[PK]** Container code (e.g., '130') |
-| `specimen_type` | VARCHAR(50) | Specimen type (Serum, Plasma, Swab) |
+| `sample_type` | VARCHAR(50) | Sample type (Serum, Plasma, Swab) |
 | `department` | VARCHAR(50) | Destination (PCR - Genetics, ELISA, Core Lab) |
+
+**`Reagent_Lots`** (Reagent Lots / Lot Tracking)
+| Field | Data Type | Description |
+| :--- | :--- | :--- |
+| `lot_id` | INT | **[PK]** Unique lot ID in the system |
+| `test_code` | VARCHAR(20) | **[FK]** Test code (link to medical service) |
+| `lot_number` | VARCHAR(50) | Reagent kit lot number (from manufacturer) |
+| `remaining_tests` | INT | Available remaining tests (automatically deducted during plate generation/aliquoting) |
 
 ### 2. Registration & Orders
 **`Patients`** (Client Registry)
@@ -50,9 +58,10 @@ The core of the system is a barcode generation algorithm that automates specimen
 | Field | Data Type | Description |
 | :--- | :--- | :--- |
 | `barcode` | VARCHAR(12)| **[PK]** Tube barcode (INZ + Container Code) |
-| `inz` | VARCHAR(9) | **[FK]** Link to the INZ (Order root) |
+| `iln` | VARCHAR(12) | **[FK]** Link to the unique order in the Orders table |
 | `container_code`| VARCHAR(3) | **[FK]** Link to the Routing Lookup Table |
 | `status` | VARCHAR(30) | Status (In Progress, Completed, Rejected) |
+| `inz` | VARCHAR(9) | **[Index]** Order root (denormalized for fast lookups without JOIN) |
 
 **`Results`** (Test Outputs)
 | Field | Data Type | Description |
@@ -60,6 +69,7 @@ The core of the system is a barcode generation algorithm that automates specimen
 | `result_id` | INT | **[PK]** Unique result ID |
 | `barcode` | VARCHAR(12)| **[FK]** Tube used for the test |
 | `test_code` | VARCHAR(20) | Performed test code |
+| `lot_id` | INT | **[FK]** Reagent lot used for the test (Lot Tracking) |
 | `value` | VARCHAR(50) | Final test result |
 
 *(Note: [PK] - Primary Key, [FK] - Foreign Key)*
@@ -67,17 +77,17 @@ The core of the system is a barcode generation algorithm that automates specimen
 ---
 
 ## Database Workflow Example (SQL)
-*Scenario: A lab technician in the PCR Genetics department scans the tube `123456789130`. The system automatically extracts the last 3 digits (`130`) to determine the specimen type and uses the first 9 digits (`123456789`) to retrieve the required tests from the patient's order, without exposing PHI.*
+*Scenario: A lab technician in the PCR Genetics department scans the tube `123456789130`. The system identifies the sample type and routing via the barcode, and retrieves the list of ordered tests through a strict primary key link (`iln`) to the order. The denormalized `inz` field allows for quick searches without table joins if necessary.*
 
 ```sql
 SELECT 
     s.barcode,
     c.department,
-    c.specimen_type,
+    c.sample_type,
     oi.test_code
 FROM Samples s
 JOIN Container_Routing c ON s.container_code = c.container_code
-JOIN Orders o ON s.inz = o.inz
+JOIN Orders o ON s.iln = o.iln
 JOIN Order_Items oi ON o.iln = oi.iln
 WHERE s.barcode = '123456789130';
 ```
