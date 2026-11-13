@@ -1,0 +1,100 @@
+openapi: 3.0.3
+info:
+  title: LIS Results Webhook API
+  version: 1.0.0
+  description: Интеграционный шлюз для асинхронной передачи валидированных лабораторных результатов из ЛИС во внешнюю Медицинскую Информационную Систему (МИС) врача.
+
+servers:
+  - url: https://api.clinic-network.com/v1
+    description: Production Server
+  - url: https://stage-api.clinic-network.com/v1
+    description: Staging Server
+
+paths:
+  /webhook/lab-results:
+    post:
+      summary: Отправка результатов исследования
+      description: Принимает массив результатов по конкретному штрихкоду пробирки (маршруту) и привязывает их к ИЛН заказа.
+      operationId: sendLabResults
+      requestBody:
+        description: JSON-объект с результатами тестов и идентификаторами заказа.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LabResultPayload'
+      responses:
+        '200':
+          description: Успешно получено и обработано МИС.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Ошибка валидации (Bad Request) - отсутствуют обязательные поля.
+        '401':
+          description: Ошибка авторизации (неверный API Key).
+        '500':
+          description: Внутренняя ошибка сервера МИС.
+
+components:
+  schemas:
+    LabResultPayload:
+      type: object
+      required:
+        - iln
+        - barcode
+        - results
+      properties:
+        iln:
+          type: string
+          description: 12-значный Идентификационный Личный Номер заказа.
+          example: "123456789101"
+        barcode:
+          type: string
+          description: 12-значный штрихкод пробирки (ИНЗ + Код контейнера).
+          example: "123456789130"
+        department:
+          type: string
+          description: Отдел лаборатории, выполнивший исследование.
+          example: "PCR-Genetics"
+        results:
+          type: array
+          description: Массив выполненных тестов из данной пробирки.
+          items:
+            $ref: '#/components/schemas/TestResultItem'
+
+    TestResultItem:
+      type: object
+      required:
+        - test_code
+        - value
+        - status
+      properties:
+        test_code:
+          type: string
+          description: Внутренний код медицинской услуги/теста.
+          example: "COV19-RNA"
+        value:
+          type: string
+          description: Текстовое или числовое значение результата.
+          example: "Положительный"
+        lot_id:
+          type: integer
+          description: ID партии реагентов для Lot Tracking (Lot-to-Result traceability).
+          example: 45092
+        status:
+          type: string
+          enum: [ "Preliminary", "Final", "Corrected" ]
+          description: Статус валидации результата.
+          example: "Final"
+
+    SuccessResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "success"
+        message:
+          type: string
+          example: "Results successfully accepted by Doctor's portal."
