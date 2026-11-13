@@ -81,3 +81,19 @@ sequenceDiagram
     LIS-->>Doctor: UI: "Successfully sent to EHR" status
     deactivate LIS
 ```
+
+## 📑 OpenAPI (Swagger) Specification
+
+The complete API contract is designed according to the OpenAPI 3.0 standard. 
+📄 **[View the source contract code (api-results-swagger_en.yaml)](api-results-swagger_en.yaml)**
+
+### Contract Visualization (Swagger UI)
+
+**1. Endpoint Description and Overview**
+![Swagger Endpoint](swagger-endpoint_en.png)
+
+**2. Request Body Structure**
+![Swagger Request](swagger-request_en.png)
+
+**3. Response Codes and Scenarios**
+![Swagger Responses](swagger-responses_en.png)
