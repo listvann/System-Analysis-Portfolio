@@ -32,7 +32,11 @@
 * **Action 4:** If the result is satisfactory, the doctor manually transfers the decision ("Detected / Not detected") from the Analytical Software to the LIS, generating a signed report.
 * **⚠️ Risks:** The doctor may miss information about a change in the series of controls/reagents, incorrectly interpret peaks on the curve due to lack of experience, or carelessly make an error during the manual transfer of the result.
 
-### Text Structure of the "To-Be" Business Process (Post-LIS Implementation & Integration)
+### Text Structure of the "To-Be" Business Process (Post-LIS Implementation & Integration)  
+
+![PCR Testing Business Process To-Be](pcr-process-to-be_en.png)
+
+📄 [Download high-resolution schema (PDF)](pcr-process-to-be_en.pdf)
 
 **1. Zone: Collection Site and Courier (External Contour)**
 * **Action 1:** Order registration in the HIS (Hospital Information System). Printing of the paper requisition form is solely for data verification and patient signature (the paper remains at the clinic). A barcode (Sample ID) is affixed to the tube.
