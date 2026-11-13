@@ -81,3 +81,18 @@ sequenceDiagram
     LIS-->>Doctor: UI: Статус "Успешно отправлено в МИС"
     deactivate LIS
 ```
+## 📑 Спецификация OpenAPI (Swagger)
+
+Полный контракт API спроектирован по стандарту OpenAPI 3.0. 
+📄 **[Смотреть исходный код контракта (api-results-swagger.yaml)](api-results-swagger.yaml)**
+
+### Визуализация контракта (Swagger UI)
+
+**1. Описание эндпоинта и общая информация**
+![Swagger Endpoint](swagger-endpoint.png)
+
+**2. Структура тела запроса (Request Body)**
+![Swagger Request](swagger-request.png)
+
+**3. Коды и сценарии ответов (Responses)**
+![Swagger Responses](swagger-responses.png)
