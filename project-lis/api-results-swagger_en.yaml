@@ -1,0 +1,156 @@
+openapi: 3.0.3
+info:
+  title: LIS Results Webhook API
+  version: 1.0.0
+  description: Integration gateway for asynchronous delivery of validated laboratory results from the LIS to the external Electronic Health Record (EHR) system.
+
+servers:
+  - url: https://api.clinic-network.com/v1
+    description: Production Server
+  - url: https://stage-api.clinic-network.com/v1
+    description: Staging Server
+
+paths:
+  /webhook/lab-results:
+    post:
+      summary: Send laboratory test results
+      description: Accepts a JSON payload containing validated test results, patient demographics, and validation details, linking them to the order via ILN.
+      operationId: sendLabResults
+      requestBody:
+        description: JSON object with test results and order identifiers.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LabResultPayload'
+      responses:
+        '200':
+          description: Successfully received and processed by EHR.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Bad Request - missing required fields or validation error.
+        '401':
+          description: Unauthorized (invalid API Key).
+        '500':
+          description: Internal Server Error on the EHR side.
+
+components:
+  schemas:
+    LabResultPayload:
+      type: object
+      required:
+        - iln
+        - collection_datetime
+        - patient
+        - results
+        - validation
+      properties:
+        iln:
+          type: string
+          description: 12-digit Identification Personal Number (Order Number).
+          example: "123456789101"
+        order_status:
+          type: string
+          example: "COMPLETED"
+        collection_datetime:
+          type: string
+          format: date-time
+          description: Actual date and time of specimen collection (ISO 8601).
+          example: "2026-10-19T08:30:00Z"
+        patient:
+          $ref: '#/components/schemas/PatientInfo'
+        laboratory:
+          $ref: '#/components/schemas/LaboratoryInfo'
+        results:
+          type: array
+          description: Array of completed test results.
+          items:
+            $ref: '#/components/schemas/TestResultItem'
+        validation:
+          $ref: '#/components/schemas/ValidationInfo'
+
+    PatientInfo:
+      type: object
+      required:
+        - gender
+      properties:
+        full_name:
+          type: string
+          example: "Ivan Ivanov"
+        dob:
+          type: string
+          format: date
+          example: "1990-05-15"
+        gender:
+          type: string
+          description: Patient's gender (M/F). Critical for reference ranges.
+          example: "M"
+        phone:
+          type: string
+          example: "+15551234567"
+
+    LaboratoryInfo:
+      type: object
+      properties:
+        legal_name:
+          type: string
+          example: "National Diagnostics Network LLC"
+        department:
+          type: string
+          example: "Molecular Pathology (PCR)"
+
+    TestResultItem:
+      type: object
+      required:
+        - test_code
+        - value
+        - test_status
+      properties:
+        test_code:
+          type: string
+          example: "PCR-COV-19"
+        test_name:
+          type: string
+          example: "SARS-CoV-2 RNA (COVID-19)"
+        test_status:
+          type: string
+          example: "VALIDATED"
+        value:
+          type: string
+          example: "Not Detected"
+        reference_range:
+          type: string
+          example: "Not Detected"
+        unit:
+          type: string
+          example: ""
+
+    ValidationInfo:
+      type: object
+      required:
+        - doctor_full_name
+      properties:
+        doctor_full_name:
+          type: string
+          description: Full name of the Clinical Pathologist.
+          example: "Dr. Alice Smith"
+        validated_datetime:
+          type: string
+          format: date-time
+          example: "2026-10-19T14:45:00Z"
+        head_of_lab_stamp_required:
+          type: boolean
+          example: true
+
+    SuccessResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "success"
+        message:
+          type: string
+          example: "Results successfully accepted by EHR."
