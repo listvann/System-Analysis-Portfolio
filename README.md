@@ -21,14 +21,14 @@
 
 **Бизнес-анализ и работа с требованиями:**
 * [Карта стейкхолдеров и матрица влияния (Power/Interest Grid)](project-lis/stakeholders.md)
-* [Скрипт интервью со стейкхолдером (Техника 5 Whys)](./requirements/interview-guide.md)
-* [Протокол встречи](./requirements/meeting-notes.md)
+* [Скрипт интервью со стейкхолдером (Техника 5 Whys)](requirements/interview-guide.md)
+* [Протокол встречи](requirements/meeting-notes.md)
 * [Моделирование бизнес-процессов (BPMN 2.0)](project-lis/business-processes.md)
 
 **Системная архитектура и проектирование интеграций:**
 * [Архитектура Базы Данных (ER-диаграмма и SQL-запросы)](project-lis/database.md)
 * [Спецификация интеграции: передача результатов (REST API) и Sequence-диаграмма (PlantUML)](project-lis/api-results.md)
-* [Взаимодействие сервисов через очередь сообщений (RabbitMQ)](./project-lis/message-broker.md) *(в разработке)*
+* [Взаимодействие сервисов через очередь сообщений (RabbitMQ)](project-lis/message-broker.md) *(в разработке)*
 
 ### Технические руководства (Tech Writing)
-* [Сравнение REST и SOAP API: Шпаргалка](./tech-writing/rest-vs-soap.md)
+* [Сравнение REST и SOAP API: Шпаргалка](tech-writing/rest-vs-soap.md)
