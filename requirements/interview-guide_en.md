@@ -36,6 +36,8 @@
 1.  What metrics will you, as the Lab Manager, want to see on your dashboard once the new labeling system is deployed?
 2.  How should the system react if an ELISA technician scans a "wrong" tube (intended for PCR)? Do we need a hard stop or just a UI warning?
 3.  What mandatory compliance reports must be generated for the State Department of Health (DOH) / CDC at the end of the shift?
+4.  What is the peak specimen volume (in tubes) passing through Accessioning during morning rush hours? This is critical to calculate the throughput for scanners and the LIS API.  
+5. What is the fallback procedure if the LIS server is temporarily down? Is there a designated offline SOP for stat (urgent) PCR tests?
 
 ## 5. Wrap-up and Follow-up
 *   Summarize key points. Meeting Minutes will be sent by EOD.
