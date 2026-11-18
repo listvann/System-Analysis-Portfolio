@@ -1,35 +1,32 @@
 *[🇷🇺 Русский](README.md) ∙ [🇬🇧 English](README_en.md)*
 
-# Anna Lee-Iu-Kun – Junior System Analyst / Technical Writer
+# Anna Lee-Iu-Kun – System Analyst | HealthTech & API Integrations
 
-Hi! I am a junior system analyst with a strong focus on creating well-structured and clear technical documentation.
+System Analyst with deep domain expertise in MedTech/HealthTech.
 
-I have 7 years of practical experience as a medical laboratory technician in PCR diagnostics. This background provides me with a deep, inside understanding of real-world clinical and diagnostic processes. I am now translating this HealthTech/MedTech domain expertise into IT to design user-centric system logic and write comprehensive documentation.
+My background includes 7 years of hands-on experience in PCR diagnostics laboratories. I have a comprehensive, inside understanding of clinical workflows, biological specimen routing, and laboratory equipment operations. In the IT sector, I translate these physical processes into system logic: designing architecture, API contracts, and data exchange workflows between medical systems (LIS, EHR, Analytical Software).
 
-**Currently open for part-time/freelance technical writing projects:** organizing knowledge bases, writing User Guides, and documenting APIs.
+**Open to Full-time Opportunities:** System Analyst, Integration Analyst.
 
 ## 🛠 Technical Skills
 
-* **Domain Expertise:** HealthTech, Laboratory Information Systems (LIS/LIMS), PCR Diagnostics workflows.
-* **Systems & Business Analysis:** Requirements gathering, business process modeling (BPMN 2.0, Draw.io), system interaction design (UML Sequence, PlantUML).
-* **Architecture & Databases:** Basic SQL, relational database design principles (ERD).
-* **Integrations & API:** REST/SOAP APIs, API testing (Postman), data exchange formats (JSON/XML), message brokers (Kafka, RabbitMQ).
-* **Technical Writing & Tools:** Markdown, Git/GitHub, VS Code, Notion, knowledge base management.
+* **Domain Expertise:** HealthTech, Laboratory Information Systems (LIS/LIMS), Electronic Health Records (EHR), Medical Equipment Integration.
+* **Systems & Business Analysis:** Requirements elicitation, business process modeling (BPMN 2.0), system interaction design (UML Sequence, Use Cases).
+* **Integrations & APIs:** REST/SOAP API design, contract specification (OpenAPI 3.0 / Swagger), API testing (Postman), data formats (JSON, XML).
+* **Architecture & Databases:** SQL (PostgreSQL), relational database design (ERD), message brokers understanding (RabbitMQ / Kafka).
+* **Tools:** Draw.io, PlantUML, Markdown, Git/GitHub, Jira/Confluence.
 
-## 📁 Portfolio: Laboratory Information System (LIS)
+## 📁 Architectural Case Study: Laboratory Information System (LIS)
 
-For my main pet project, I am designing a LIS architecture based on real-world laboratory workflows:
+A comprehensive "To-Be" system design case focused on transitioning to a paperless workflow, automated reagent Lot Tracking, and seamless integration with liquid handling stations.
 
 **Business Analysis & Requirements Engineering:**
 * [Stakeholder Register & Power/Interest Grid](project-lis/stakeholders_en.md)
-* [Stakeholder Interview Guide (5 Whys Technique)](requirements/interview-guide_en.md)
-* [Meeting Minutes](requirements/meeting-notes_en.md)
-* [Business Process Modeling (BPMN 2.0)](project-lis/business-processes_en.md)
+* [In-depth Stakeholder Interview (5 Whys Technique)](requirements/interview-guide_en.md)
+* [Business Requirements Document (Meeting Minutes)](requirements/meeting-notes_en.md)
+* [Business Process Modeling As-Is & To-Be (BPMN 2.0)](project-lis/business-processes_en.md)
 
 **System Architecture & Integration Design:**
 * [Database Architecture (ERD & SQL queries)](project-lis/database_en.md)
-* [Integration Specification: Results Delivery (REST API) & Sequence Diagram (PlantUML)](project-lis/api-results_en.md)
-* [Service Interaction via Message Brokers (RabbitMQ)](project-lis/message-broker_en.md) *(in progress)*
-
-### Technical Guides (Tech Writing)
-* [REST vs SOAP API: A Beginner's Guide](tech-writing/rest-vs-soap_en.md) 
+* [Integration Specification: Results Delivery (OpenAPI / Swagger) & Sequence Diagram](project-lis/api-results_en.md)
+* [Asynchronous Service Interaction via Message Broker (RabbitMQ)](project-lis/message-broker_en.md) *(in progress)*
