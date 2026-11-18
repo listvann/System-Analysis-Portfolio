@@ -16,6 +16,8 @@ paths:
       summary: Отправка результатов исследования
       description: Принимает массив результатов по конкретному штрихкоду пробирки (маршруту) и привязывает их к ИЛН заказа.
       operationId: sendLabResults
+      security:
+        - bearerAuth: []
       requestBody:
         description: JSON-объект с результатами тестов и идентификаторами заказа.
         required: true
@@ -33,11 +35,21 @@ paths:
         '400':
           description: Ошибка валидации (Bad Request) - отсутствуют обязательные поля.
         '401':
-          description: Ошибка авторизации (неверный API Key).
+          description: Ошибка авторизации (неверный или просроченный Bearer Token).
+        '404':
+          description: Ошибка бизнес-логики - заказ с переданным ИЛН не найден в МИС.
+        '409':
+          description: Конфликт (Idempotency Error) - результаты по данному ИЛН уже загружены ранее.
         '500':
           description: Внутренняя ошибка сервера МИС.
 
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      
   schemas:
     LabResultPayload:
       type: object
@@ -46,6 +58,11 @@ components:
         - barcode
         - results
       properties:
+        message_id:
+          type: string
+          format: uuid
+          description: Уникальный идентификатор сообщения для идемпотентности.
+          example: "a1b2c3d4-e5f6-7890-abcd-1234567890ab"
         iln:
           type: string
           description: 12-значный Идентификационный Личный Номер заказа.
