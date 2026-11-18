@@ -16,6 +16,8 @@ paths:
       summary: Send laboratory test results
       description: Accepts a JSON payload containing validated test results, patient demographics, and validation details, linking them to the order via ILN.
       operationId: sendLabResults
+      security:
+        - bearerAuth: []
       requestBody:
         description: JSON object with test results and order identifiers.
         required: true
@@ -33,21 +35,37 @@ paths:
         '400':
           description: Bad Request - missing required fields or validation error.
         '401':
-          description: Unauthorized (invalid API Key).
+          description: Unauthorized (invalid or expired Bearer Token).
+        '404':
+          description: Business Error - Order ILN not found in the EHR database.
+        '409':
+          description: Conflict (Idempotency Error) - Results for this ILN have already been ingested.
         '500':
           description: Internal Server Error on the EHR side.
 
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      
   schemas:
     LabResultPayload:
       type: object
       required:
+        - message_id
         - iln
         - collection_datetime
         - patient
         - results
         - validation
       properties:
+        message_id:
+          type: string
+          format: uuid
+          description: Unique message identifier for idempotency.
+          example: "a1b2c3d4-e5f6-7890-abcd-1234567890ab"
         iln:
           type: string
           description: 12-digit Identification Personal Number (Order Number).
@@ -100,7 +118,7 @@ components:
           example: "National Diagnostics Network LLC"
         department:
           type: string
-          example: "Molecular Pathology (PCR)"
+          example: "Molecular Diagnostics (PCR)"
 
     TestResultItem:
       type: object
