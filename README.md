@@ -29,6 +29,3 @@
 * [Архитектура Базы Данных (ER-диаграмма и SQL-скрипты)](project-lis/database.md)
 * [Спецификация интеграции: передача результатов (OpenAPI / Swagger) и Sequence-диаграмма](project-lis/api-results.md)
 * [Асинхронное взаимодействие сервисов через брокер сообщений (RabbitMQ)](project-lis/message-broker.md) *(в разработке)*
-
-### Технические руководства (Tech Writing)
-* [Сравнение REST и SOAP API: Шпаргалка](tech-writing/rest-vs-soap.md)
