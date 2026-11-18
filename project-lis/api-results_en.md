@@ -90,12 +90,13 @@ sequenceDiagram
     LIS->>LIS: Calculate reference ranges,<br/>generate UUID (message_id)
     LIS->>EHR: POST /api/v1/webhook/lab-results (JSON + Token)
     activate EHR
-    EHR->>EHR: Lookup patient profile by ILN<br/>and save result
-    EHR-->>LIS: 200 OK (Successfully received)
-    LIS-->>Doctor: UI: "Successfully sent to EHR"
-    else Business Error (ILN Not Found)
+   alt Validation Passed
+        EHR->>EHR: Lookup patient by ILN<br/>and save result
+        EHR-->>LIS: 200 OK (Successfully received)
+        LIS-->>Doctor: UI - Successfully sent to EHR
+    else Business Error
         EHR-->>LIS: 404 Not Found (Order ILN not found)
-        LIS-->>Doctor: UI: Error! Order not found in EHR.
+        LIS-->>Doctor: UI - Error! Order not found in EHR
     end
     deactivate EHR
     deactivate LIS
