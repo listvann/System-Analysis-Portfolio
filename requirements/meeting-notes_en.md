@@ -8,7 +8,8 @@
 
 ## 📌 Agenda
 *   Review of frequent Turnaround Time (TAT) violations in PCR testing.
-*   Identification of bottlenecks during the pre-analytical phase (Accessioning department) and the analytical phase (manual reagent consumption tracking).
+*   Identification of bottlenecks during the pre-analytical phase (specimen routing) and the analytical phase (reagent consumption tracking).
+*   Discussion on integration requirements for robotic liquid handling stations with the new LIS.
 
 ## 🎯 Key Decisions
 1.  **Deprecate Visual Sorting:** Confirmed that manually sorting specimens by cap color leads to routing errors and delays, as cap colors (e.g., yellow) are shared across multiple laboratory departments.
@@ -20,8 +21,8 @@
 
 | Task | Owner | Due Date | Status |
 | :--- | :--- | :--- | :--- |
-| Design the conceptual ER Diagram for the new routing database logic and reagent lot tracking | Anna Li-Yu-Kun | Oct 28, 2026 | Completed |
-| Provide HIPAA-compliant (de-identified) specimen barcodes and current Accessioning SOPs | Dr. John Smith | Oct 29, 2026 | To Do |
+| Design the logical data model (ER Diagram) for the new barcode logic and lot tracking system | Anna Li-Yu-Kun | Oct 28, 2026 | Completed |
+| Provide the current container master data export and Accessioning SOPs | Dr. John Smith | Oct 29, 2026 | To Do |
 | Draft the API integration specification for result delivery (incorporating the Clinical Pathologist validation gateway) | Anna Li-Yu-Kun | Nov 02, 2026 | Completed |
 
 **Next Sync:** October 30, 2026 (Database Architecture Review).
