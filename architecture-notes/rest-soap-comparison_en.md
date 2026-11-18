@@ -1,8 +1,4 @@
-# Cheat Sheet: REST vs SOAP (with LIS Example)
-
-A brief guide to basic API design approaches. We'll explore the differences between the formats and when to choose each for integrating medical systems.
-
----
+# REST vs SOAP Architectural Styles: Applicability Analysis
 
 ## 1. SOAP (Simple Object Access Protocol)
 This is a strict messaging protocol. It operates under rigid rules: the structure of both the request and the response is strictly regulated.
