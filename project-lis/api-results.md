@@ -49,8 +49,7 @@
   ],
   "validation": {
     "doctor_full_name": "Смирнова А.В.",
-    "validated_datetime": "2026-10-19T14:45:00Z",
-    "head_of_lab_stamp_required": true
+    "validated_datetime": "2026-10-19T14:45:00Z"
   }
 }
 ```
