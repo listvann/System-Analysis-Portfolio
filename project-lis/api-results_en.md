@@ -2,23 +2,28 @@
 
 **Architectural Style:** REST (Webhook / Push Model)  
 **Trigger Event:** Result validation by the Clinical Pathologist in the LIS interface.  
-**Target System:** External EHR (Electronic Health Record) system (for patient report generation).  
+**Target System:** External EHR (Electronic Health Record) system.
+**Security:** Authorization via `Bearer Token` (OAuth 2.0 / JWT) + `X-Request-ID` header for distributed tracing.
 
 ## Business Rules
-1. **Identification:** The EHR expects the **ILN** (12-digit Order Number) rather than the physical specimen barcode (INZ + Container Code). The ILN serves as the primary key linking the test result to the financial encounter and the patient's EHR profile.
-2. **Dynamic Reference Ranges:** Reference ranges are calculated dynamically by the LIS during test execution, based on the patient's demographic data (gender, DOB). The EHR receives pre-calculated textual reference values.
-3. **Legal Compliance & E-Signature:** To generate a legally binding report with a digital signature, the payload strictly includes the executing laboratory's legal entity details and the authorizing Clinical Pathologist's full name.
+1. **Identification & Idempotency:** The EHR expects the **ILN** (12-digit Order Number) rather than the physical specimen barcode. The ILN serves as the primary key linking the result to the patient's EHR profile. To prevent duplicate report generation during retries, the LIS sends a `message_id` ensuring idempotency.
+2. **Dynamic Reference Ranges:** Reference ranges are calculated dynamically by the LIS based on the patient's gender and DOB. The EHR receives pre-calculated textual values.
+3. **Legal Compliance & E-Signature:** The payload strictly includes the executing laboratory's legal entity details and the authorizing Clinical Pathologist's full name.
 
 ---
 
 ## Data Contract
 **Endpoint:** `POST /api/v1/webhook/lab-results`  
 **Content-Type:** `application/json`
+**Headers:** 
+* `Authorization: Bearer <token>`
+* `X-Idempotency-Key: <uuid>`
 
 ### Example Request Body
 
 ```json
 {
+  "message_id": "a1b2c3d4-e5f6-7890-abcd-1234567890ab",
   "iln": "123456789101",
   "order_status": "COMPLETED",
   "collection_datetime": "2026-10-19T08:30:00Z",
@@ -30,7 +35,7 @@
   },
   "laboratory": {
     "legal_name": "National Diagnostics Network LLC",
-    "department": "Molecular Pathology (PCR)"
+    "department": "Molecular Diagnostics (PCR)"
   },
   "results": [
     {
@@ -44,16 +49,26 @@
   ],
   "validation": {
     "doctor_full_name": "Dr. Alice Smith",
-    "validated_datetime": "2026-10-19T14:45:00Z",
-    "head_of_lab_stamp_required": true
+    "validated_datetime": "2026-10-19T14:45:00Z"
   }
 }
 ```
+### Response Codes
+
+| Code | Description | Scenario |
+| :--- | :--- | :--- |
+| `200 OK` | Success | EHR successfully received and linked the data. |
+| `400 Bad Request` | Validation Error | Missing required fields (e.g., Doctor's Name). |
+| `401 Unauthorized` | Auth Error | Invalid or expired Bearer Token. |
+| `404 Not Found` | Business Error | Order ILN not found in the EHR database. |
+| `409 Conflict` | Idempotency Error | Results for this ILN have already been ingested. |
+| `500 Internal Error` | Server Error | Internal Server Error on the EHR side. |
 
 ### Data Dictionary
 
 | Parameter | Type | Required | Description |
 | :--- | :--- | :--- | :--- |
+| `message_id` | UUID (String) | Yes | Unique message identifier to ensure idempotency. |
 | `iln` | String | Yes | Identification Personal Number (Order Number). |
 | `collection_datetime` | DateTime | Yes | Actual date and time of specimen collection (ISO 8601). |
 | `patient.gender` | String | Yes | Patient's gender (M/F). Critical for defining the `reference_range`. |
@@ -72,13 +87,17 @@ sequenceDiagram
 
     Doctor->>LIS: Validate result (button click)
     activate LIS
-    LIS->>LIS: Calculate reference ranges (DOB, gender)<br/>and generate JSON
-    LIS->>EHR: POST /api/v1/webhook/lab-results (JSON payload)
+    LIS->>LIS: Calculate reference ranges,<br/>generate UUID (message_id)
+    LIS->>EHR: POST /api/v1/webhook/lab-results (JSON + Token)
     activate EHR
     EHR->>EHR: Lookup patient profile by ILN<br/>and save result
     EHR-->>LIS: 200 OK (Successfully received)
+    LIS-->>Doctor: UI: "Successfully sent to EHR"
+    else Business Error (ILN Not Found)
+        EHR-->>LIS: 404 Not Found (Order ILN not found)
+        LIS-->>Doctor: UI: Error! Order not found in EHR.
+    end
     deactivate EHR
-    LIS-->>Doctor: UI: "Successfully sent to EHR" status
     deactivate LIS
 ```
 
