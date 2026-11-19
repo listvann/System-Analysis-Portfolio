@@ -49,22 +49,24 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      
+
   schemas:
     LabResultPayload:
       type: object
       required:
         - message_id
         - iln
+        - order_status
         - collection_datetime
         - patient
+        - laboratory
         - results
         - validation
       properties:
         message_id:
           type: string
           format: uuid
-          description: Unique message identifier for idempotency.
+          description: Unique message identifier (UUID) to ensure idempotency.
           example: "a1b2c3d4-e5f6-7890-abcd-1234567890ab"
         iln:
           type: string
@@ -93,6 +95,8 @@ components:
     PatientInfo:
       type: object
       required:
+        - full_name
+        - dob
         - gender
       properties:
         full_name:
@@ -112,6 +116,9 @@ components:
 
     LaboratoryInfo:
       type: object
+      required:
+        - legal_name
+        - department
       properties:
         legal_name:
           type: string
@@ -124,8 +131,9 @@ components:
       type: object
       required:
         - test_code
-        - value
+        - test_name
         - test_status
+        - value
       properties:
         test_code:
           type: string
@@ -150,6 +158,7 @@ components:
       type: object
       required:
         - doctor_full_name
+        - validated_datetime
       properties:
         doctor_full_name:
           type: string
@@ -159,9 +168,6 @@ components:
           type: string
           format: date-time
           example: "2026-10-19T14:45:00Z"
-        head_of_lab_stamp_required:
-          type: boolean
-          example: true
 
     SuccessResponse:
       type: object
