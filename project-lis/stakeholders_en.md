@@ -8,11 +8,11 @@ This document outlines the Stakeholder Register for the Laboratory Information S
 | :--- | :--- | :--- | :--- |
 | **Internal** | **Lab Manager / CMO** | Monitors Turnaround Time (TAT), reagent usage, and rejection rates. | Analytical dashboards, transparent analyzer workload metrics. |
 | **Internal** | **Clinical Pathologist / Lab Physician** | Validates amplification graphs, verifies reagent lot changes. Pain point: manual result transfer to LIS, risk of validating with incorrect controls. | Single-window UI for graphs and patient history, automated lot change alerts, one-click result transmission. |
-| **Internal** | **Lab Technician** | Sample preparation, extraction, loading analyzers. Pain point: double specimen registration, manual well counting, manual reagent deduction. | Automated routing via barcode, virtual plate/rack generation, automated Lot Tracking. |
+| **Internal** | **Lab Technician** | Sample preparation, extraction, loading analyzers. Pain point: double specimen registration, manual well counting, manual reagent deduction. | Automated routing via 12-digit barcode (INZ + Container Code), virtual plate/rack generation, automated Lot Tracking. |
 | **Internal** | **Phlebotomist / Nurse** | Collects and labels specimens. Pain point: confusing tube cap colors. | Clear barcode generation, UI prompts for correct specimen containers. |
 | **External** | **Patient** | Provides specimens, waits for diagnosis. Pain point: delays and data privacy. | Fast PDF report delivery, strict Protected Health Information (PHI) security. |
 | **External** | **State Health Registry / CDC** | Epidemiological control (e.g., infectious disease tracking). | Reliable, secure API integration (e.g., SOAP/XML) for mandatory reporting. |
-| **Technical**| **IT Support / DevOps** | Maintains servers and DB uptime. Pain point: system crashes during peak load. | High availability, comprehensive error logging, and monitoring tools. |
+| **Technical** | **IT Support / InfoSec (DevOps)** | Maintains servers, DB uptime, and PHI security. Pain point: system crashes during peak load, risk of medical data leaks. | High availability, comprehensive error logging, monitoring tools, Role-Based Access Control (RBAC), HIPAA/GDPR compliance. |
 
 ## 2. Power/Interest Grid
 
