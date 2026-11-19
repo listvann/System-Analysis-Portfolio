@@ -49,62 +49,125 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      
+
   schemas:
     LabResultPayload:
       type: object
       required:
+        - message_id
         - iln
-        - barcode
+        - order_status
+        - collection_datetime
+        - patient
+        - laboratory
         - results
+        - validation
       properties:
         message_id:
           type: string
           format: uuid
-          description: Уникальный идентификатор сообщения для идемпотентности.
+          description: Уникальный идентификатор сообщения (UUID) для обеспечения идемпотентности.
           example: "a1b2c3d4-e5f6-7890-abcd-1234567890ab"
         iln:
           type: string
           description: 12-значный Идентификационный Личный Номер заказа.
           example: "123456789101"
-        barcode:
+        order_status:
           type: string
-          description: 12-значный штрихкод пробирки (ИНЗ + Код контейнера).
-          example: "123456789130"
-        department:
+          example: "COMPLETED"
+        collection_datetime:
           type: string
-          description: Отдел лаборатории, выполнивший исследование.
-          example: "PCR-Genetics"
+          format: date-time
+          description: Дата и время забора биоматериала (ISO 8601).
+          example: "2026-10-19T08:30:00Z"
+        patient:
+          $ref: '#/components/schemas/PatientInfo'
+        laboratory:
+          $ref: '#/components/schemas/LaboratoryInfo'
         results:
           type: array
-          description: Массив выполненных тестов из данной пробирки.
+          description: Массив выполненных тестов.
           items:
             $ref: '#/components/schemas/TestResultItem'
+        validation:
+          $ref: '#/components/schemas/ValidationInfo'
+
+    PatientInfo:
+      type: object
+      required:
+        - full_name
+        - dob
+        - gender
+      properties:
+        full_name:
+          type: string
+          example: "Иванов Иван Иванович"
+        dob:
+          type: string
+          format: date
+          example: "1990-05-15"
+        gender:
+          type: string
+          description: Пол пациента (M/F). Используется для расчета референсов.
+          example: "M"
+        phone:
+          type: string
+          example: "+79991234567"
+
+    LaboratoryInfo:
+      type: object
+      required:
+        - legal_name
+        - department
+      properties:
+        legal_name:
+          type: string
+          example: "ООО 'Медицинский центр'"
+        department:
+          type: string
+          example: "Отдел молекулярной диагностики (ПЦР)"
 
     TestResultItem:
       type: object
       required:
         - test_code
+        - test_name
+        - test_status
         - value
-        - status
       properties:
         test_code:
           type: string
-          description: Внутренний код медицинской услуги/теста.
-          example: "COV19-RNA"
+          example: "PCR-COV-19"
+        test_name:
+          type: string
+          example: "РНК SARS-CoV-2 (COVID-19)"
+        test_status:
+          type: string
+          example: "VALIDATED"
         value:
           type: string
-          description: Текстовое или числовое значение результата.
-          example: "Положительный"
-        lot_id:
-          type: integer
-          description: ID партии реагентов для Lot Tracking (Lot-to-Result traceability).
-          example: 45092
-        status:
+          example: "Не обнаружено"
+        reference_range:
           type: string
-          enum: [ "Preliminary", "Final", "Corrected" ]
-          description: Статус валидации результата.
-          example: "Final"
+          example: "Не обнаружено"
+        unit:
+          type: string
+          example: ""
+
+    ValidationInfo:
+      type: object
+      required:
+        - doctor_full_name
+        - validated_datetime
+      properties:
+        doctor_full_name:
+          type: string
+          description: ФИО врача КДЛ, валидировавшего результат.
+          example: "Смирнова А.В."
+        validated_datetime:
+          type: string
+          format: date-time
+          example: "2026-10-19T14:45:00Z"
 
     SuccessResponse:
       type: object
@@ -114,4 +177,4 @@ components:
           example: "success"
         message:
           type: string
-          example: "Results successfully accepted by Doctor's portal."
+          example: "Results successfully accepted by MIS."
