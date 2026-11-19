@@ -77,8 +77,8 @@
 
 The transformation of the process from the As-Is to the To-Be model solves the key operational problems of the clinical diagnostic laboratory:
 
-1. **Minimization of the Human Factor (Zero Tolerance to Error):** Manual routing decisions based on memory and cap color, double manual data entry, and manual text transfer of validation results are completely eliminated.
+1. **Minimization of the Human Factor (Zero Tolerance to Error):** Manual routing error based on memory and cap color, double manual data entry, and manual text transfer of validation results are minimized.
 2. **Seamless Data Integration:** The API connection between the LIS and the Analytical Software eliminates the need for secondary (internal) numbers. The system itself manages the routing of the biological specimen.
 3. **Single Window Workstation:** The Clinical Pathologist receives all the necessary information for validation (patient history from the LIS + melting curves and controls from the Analytical Software) in a single interface. This significantly reduces the Turnaround Time (TAT) for delivering results.
-4. **Traceability:** The transition from paper routing slips to a digital form twin and software-based routing (LIS on-screen prompts, automated extraction and aliquoting stations) ensures 100% transparency of biological specimen movement at every stage.
+4. **Traceability:** The transition from paper routing slips to a digital form twin and software-based routing (LIS on-screen prompts, automated extraction and aliquoting stations) ensures end-to-end tracking of specimen status and movement at every processing stage.
 5. **Quality Assurance & Compliance:** Proactive tracking of reagent lots and automated calculation of test consumption safeguard the laboratory against issuing invalid results. The system relieves the pathologist of the cognitive load of monitoring controls and prevents errors before they occur.
