@@ -29,7 +29,7 @@
   "collection_datetime": "2026-10-19T08:30:00Z",
   "patient": {
     "full_name": "Иванов Иван Иванович",
-    "birth_date": "1990-05-15",
+    "dob": "1990-05-15",
     "gender": "M",
     "phone": "+79991234567"
   },
