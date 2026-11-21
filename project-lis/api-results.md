@@ -109,10 +109,15 @@ sequenceDiagram
 ### Визуализация контракта (Swagger UI)
 
 **1. Описание эндпоинта и общая информация**
-![Swagger Endpoint](swagger-endpoint.png)
+![Swagger Endpoint](assets/swagger-endpoint.png)
 
-**2. Структура тела запроса (Request Body)**
-![Swagger Request](swagger-request.png)
+**2. Заголовки запроса (Parameters / Headers)**
+![Swagger Parameters](assets/swagger-parameters.png)
 
-**3. Коды и сценарии ответов (Responses)**
-![Swagger Responses](swagger-responses.png)
+**3. Структура тела запроса (Request Body)**
+![Swagger Request](assets/swagger-request.png)
+
+**4. Коды и сценарии ответов (Responses)**
+![Swagger Responses 200 & 400](assets/swagger-responses-1.png)
+![Swagger Responses 401 & 404](assets/swagger-responses-2.png)
+![Swagger Responses 409 & 500](assets/swagger-responses-3.png)
