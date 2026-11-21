@@ -234,7 +234,7 @@ components:
           example: "success"
         message:
           type: string
-          example: "Results successfully accepted by MIS."
+          example: "Results successfully accepted by EHR."
 
     ErrorResponse:
       type: object
