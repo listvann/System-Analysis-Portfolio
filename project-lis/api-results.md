@@ -79,52 +79,33 @@
 
 ## Диаграмма последовательности (Sequence Diagram)
 
-## Диаграмма последовательности (Sequence Diagram)
-
 ```mermaid
 sequenceDiagram
     autonumber
-    actor Doctor as Врач КДЛ
-    participant LIS as ЛИС (Backend)
-    participant MQ as RabbitMQ (Брокер)
-    participant Worker as Webhook Worker
-    participant MIS as МИС (Клиника)
+    actor Doc as Врач КДЛ
+    participant LIS as ЛИС
+    participant MQ as RabbitMQ
+    participant W as Worker
+    participant MIS as МИС
 
-    Doctor->>LIS: Валидация результата (кнопка «Отправить»)
-    activate LIS
-    LIS->>LIS: Сохранение в БД, расчет референсов,<br/>генерация message_id (UUID)
-    LIS->>MQ: Публикация события result.validated (JSON)
-    LIS-->>Doctor: UI: «Валидировано, поставлено в очередь»
-    deactivate LIS
+    Doc->>LIS: Валидация результата
+    LIS->>LIS: Сохранение в БД, генерация message_id
+    LIS->>MQ: Событие result.validated (JSON)
+    LIS-->>Doc: UI: «Поставлено в очередь»
 
-    MQ->>Worker: Доставка сообщения из очереди
-    activate Worker
+    MQ->>W: Доставка сообщения
+    W->>MIS: POST /api/v1/webhook/lab-results<br/>(JWT, X-Idempotency-Key, X-Request-ID)
 
-    loop Ретраи при 500 / таймауте (до 3 попыток, exp. backoff)
-        Worker->>Worker: Генерация нового X-Request-ID
-        Worker->>MIS: POST /api/v1/webhook/lab-results<br/>(JWT + X-Idempotency-Key + X-Request-ID)
-        activate MIS
-        alt 200 OK — Успешно
-            MIS->>MIS: Проверка X-Idempotency-Key (новый),<br/>поиск заказа по ИЛН, сохранение
-            MIS-->>Worker: 200 OK (SuccessResponse)
-            Worker->>MQ: ACK (удалить из очереди, выход из цикла)
-        else 409 Conflict — Сетевой дубль
-            MIS-->>Worker: 409 Conflict (X-Idempotency-Key уже обработан)
-            Worker->>MQ: ACK (дубль отброшен, выход из цикла)
-        else 400 / 404 — Ошибка данных или ИЛН не найден
-            MIS-->>Worker: 400 / 404 (ErrorResponse)
-            Worker->>MQ: NACK → Перенос в DLQ + Алерт (без ретраев)
-        else 500 Internal Error / Таймаут
-            MIS-->>Worker: 500 ErrorResponse / Timeout
-            Worker->>MQ: NACK (отложить на повторную попытку)
-        end
-        deactivate MIS
+    alt 200 OK или 409 Conflict (дубль)
+        MIS-->>W: 200 OK / 409 Conflict
+        W->>MQ: ACK (удалить из очереди)
+    else 400 / 404 (ошибка данных или ИЛН)
+        MIS-->>W: 400 / 404 ErrorResponse
+        W->>MQ: NACK → сразу в DLQ + Алерт
+    else 500 / Таймаут (сбой МИС)
+        MIS-->>W: 500 / Timeout
+        W->>MQ: NACK → Retry (до 3 попыток, exp. backoff)<br/>При неудаче → DLQ + Алерт
     end
-
-    opt Все попытки ретрая исчерпаны
-        MQ->>MQ: Перемещение в Dead Letter Queue (DLQ)<br/>+ Алерт в мониторинг (Grafana/Zabbix)
-    end
-    deactivate Worker
 ```
 ## 📑 Спецификация OpenAPI (Swagger)
 
