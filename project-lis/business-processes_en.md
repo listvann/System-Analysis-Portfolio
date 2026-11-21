@@ -1,6 +1,7 @@
 ## Business Process As-Is (Prior to New LIS Implementation)
-![PCR Testing Business Process As-Is](pcr-process-as-is-en.png)  
-📄 [Download high-resolution schema (PDF)](pcr-process-as-is-en.pdf)
+
+![PCR Testing Business Process As-Is](assets/pcr-process-as-is-en.png)  
+📄 [Download high-resolution schema (PDF)](assets/pcr-process-as-is-en.pdf)
 
 ### Text Structure of the "As-Is" Business Process (Prior to New LIS Implementation)
 
@@ -37,9 +38,8 @@
 
 ## Business Process To-Be (Optimized Process)
 
-![PCR Testing Business Process To-Be](pcr-process-to-be_en.png)
-
-📄 [Download high-resolution schema (PDF)](pcr-process-to-be_en.pdf)
+![PCR Testing Business Process To-Be](assets/pcr-process-to-be_en.png)
+📄 [Download high-resolution schema (PDF)](assets/pcr-process-to-be_en.pdf)
 
 ### Text Structure of the "To-Be" Business Process (Post-LIS Implementation & Integration)
 
