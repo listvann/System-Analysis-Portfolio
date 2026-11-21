@@ -5,9 +5,9 @@ info:
   description: Интеграционный шлюз для асинхронной передачи валидированных лабораторных результатов из ЛИС во внешнюю Медицинскую Информационную Систему (МИС) врача.
 
 servers:
-  - url: https://api.clinic-network.com/v1
+  - url: https://api.clinic-network.com/api/v1
     description: Production Server
-  - url: https://stage-api.clinic-network.com/v1
+  - url: https://stage-api.clinic-network.com/api/v1
     description: Staging Server
 
 paths:
