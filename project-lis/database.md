@@ -138,4 +138,4 @@ WHERE o.iln = '123456789101'
   AND r.test_status = 'VALIDATED';
 ```
 
-![ER-диаграмма БД ЛИС](lis-database-er-diagram.png)
+![ER-диаграмма БД ЛИС](assets/lis-database-er-diagram.png)
