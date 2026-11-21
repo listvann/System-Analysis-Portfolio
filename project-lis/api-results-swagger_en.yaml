@@ -5,9 +5,9 @@ info:
   description: Integration gateway for asynchronous delivery of validated laboratory results from the LIS to the external Electronic Health Record (EHR) system.
 
 servers:
-  - url: https://api.clinic-network.com/v1
+  - url: https://api.clinic-network.com/api/v1
     description: Production Server
-  - url: https://stage-api.clinic-network.com/v1
+  - url: https://stage-api.clinic-network.com/api/v1
     description: Staging Server
 
 paths:
