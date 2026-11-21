@@ -15,9 +15,10 @@
 ## Data Contract
 **Endpoint:** `POST /api/v1/webhook/lab-results`  
 **Content-Type:** `application/json`
-**Headers:** 
+**Headers:**
 * `Authorization: Bearer <token>`
 * `X-Idempotency-Key: <uuid>`
+* `X-Request-ID: <uuid>`
 
 ### Example Request Body
 
@@ -61,10 +62,10 @@
 | `400 Bad Request` | Validation Error | Missing required fields (e.g., Doctor's Name). |
 | `401 Unauthorized` | Auth Error | Invalid or expired Bearer Token. |
 | `404 Not Found` | Business Error | Order ILN not found in the EHR database. |
-| `409 Conflict` | Idempotency Error | Results for this ILN have already been ingested. |
+| `409 Conflict` | Idempotency Error | Request with this `message_id` / `X-Idempotency-Key` has already been processed. |
 | `500 Internal Error` | Server Error | Internal Server Error on the EHR side. |
 
-### Data Dictionary
+### Key Parameters (Data Dictionary)
 
 | Parameter | Type | Required | Description |
 | :--- | :--- | :--- | :--- |
@@ -81,25 +82,30 @@
 ```mermaid
 sequenceDiagram
     autonumber
-    actor Doctor as Clinical Pathologist
-    participant LIS as LIS (Laboratory)
-    participant EHR as EHR (Clinic)
+    actor Doc as Pathologist
+    participant LIS as LIS
+    participant MQ as RabbitMQ
+    participant W as Worker
+    participant EHR as EHR
 
-    Doctor->>LIS: Validate result (button click)
-    activate LIS
-    LIS->>LIS: Calculate reference ranges,<br/>generate UUID (message_id)
-    LIS->>EHR: POST /api/v1/webhook/lab-results (JSON + Token)
-    activate EHR
-   alt Validation Passed
-        EHR->>EHR: Lookup patient by ILN<br/>and save result
-        EHR-->>LIS: 200 OK (Successfully received)
-        LIS-->>Doctor: UI - Successfully sent to EHR
-    else Business Error
-        EHR-->>LIS: 404 Not Found (Order ILN not found)
-        LIS-->>Doctor: UI - Error! Order not found in EHR
+    Doc->>LIS: Validate result
+    LIS->>LIS: Save to DB, generate message_id
+    LIS->>MQ: Publish result.validated (JSON)
+    LIS-->>Doc: UI: "Queued for delivery"
+
+    MQ->>W: Consume message
+    W->>EHR: POST /api/v1/webhook/lab-results<br/>(JWT, X-Idempotency-Key, X-Request-ID)
+
+    alt 200 OK or 409 Conflict (duplicate)
+        EHR-->>W: 200 OK / 409 Conflict
+        W->>MQ: ACK (remove from queue)
+    else 400 / 404 (validation or ILN error)
+        EHR-->>W: 400 / 404 ErrorResponse
+        W->>MQ: NACK → route to DLQ + Alert
+    else 500 / Timeout (EHR failure)
+        EHR-->>W: 500 / Timeout
+        W->>MQ: NACK → Retry (up to 3x, exp. backoff)<br/>On failure → DLQ + Alert
     end
-    deactivate EHR
-    deactivate LIS
 ```
 
 ## 📑 OpenAPI (Swagger) Specification
