@@ -18,6 +18,23 @@ paths:
       operationId: sendLabResults
       security:
         - bearerAuth: []
+      parameters:
+      - name: X-Idempotency-Key
+        in: header
+        required: true
+        description: Уникальный ключ (UUID) для защиты от дублей при повторной отправке.
+        schema:
+          type: string
+          format: uuid
+          example: "a1b2c3d4-e5f6-7890-abcd-1234567890ab"
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: Уникальный идентификатор запроса для сквозной трассировки в логах.
+        schema:
+          type: string
+          format: uuid
+          example: "f47ac10b-58cc-4372-a567-0e02b2c3d479"
       requestBody:
         description: JSON-объект с результатами тестов и идентификаторами заказа.
         required: true
@@ -33,15 +50,50 @@ paths:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
         '400':
-          description: Ошибка валидации (Bad Request) - отсутствуют обязательные поля.
+          description: Ошибка валидации (Bad Request) — отсутствуют обязательные поля или неверный формат данных.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error_code: "VALIDATION_ERROR"
+                message: "Некорректный формат поля iln (ожидается 12 цифр)."
         '401':
           description: Ошибка авторизации (неверный или просроченный Bearer Token).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error_code: "UNAUTHORIZED"
+                message: "Недействительный или просроченный токен авторизации."
         '404':
-          description: Ошибка бизнес-логики - заказ с переданным ИЛН не найден в МИС.
+          description: Ошибка бизнес-логики — заказ с переданным ИЛН не найден в МИС.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error_code: "ORDER_NOT_FOUND"
+                message: "Заказ с ИЛН 123456789101 не найден в МИС."
         '409':
-          description: Конфликт (Idempotency Error) - результаты по данному ИЛН уже загружены ранее.
+          description: Конфликт (Idempotency Error) — запрос с таким message_id / X-Idempotency-Key уже был обработан ранее.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error_code: "DUPLICATE_REQUEST"
+                message: "Сообщение с указанным X-Idempotency-Key уже обработано."
         '500':
-          description: Внутренняя ошибка сервера МИС.
+          description: Внутренняя ошибка сервера МИС (ЛИС повторит отправку по политике ретраев).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error_code: "INTERNAL_SERVER_ERROR"
+                message: "Временная ошибка обработки на стороне МИС."
 
 components:
   securitySchemes:
@@ -70,10 +122,12 @@ components:
           example: "a1b2c3d4-e5f6-7890-abcd-1234567890ab"
         iln:
           type: string
+          pattern: '^\d{12}$'
           description: 12-значный Идентификационный Личный Номер заказа.
           example: "123456789101"
         order_status:
           type: string
+          enum: [NEW, IN_PROGRESS, COMPLETED]
           example: "COMPLETED"
         collection_datetime:
           type: string
@@ -86,6 +140,7 @@ components:
           $ref: '#/components/schemas/LaboratoryInfo'
         results:
           type: array
+          minItems: 1
           description: Массив выполненных тестов.
           items:
             $ref: '#/components/schemas/TestResultItem'
@@ -108,6 +163,7 @@ components:
           example: "1990-05-15"
         gender:
           type: string
+          enum: [M, F]
           description: Пол пациента (M/F). Используется для расчета референсов.
           example: "M"
         phone:
@@ -143,6 +199,7 @@ components:
           example: "РНК SARS-CoV-2 (COVID-19)"
         test_status:
           type: string
+          enum: [PRELIMINARY, VALIDATED, REJECTED]
           example: "VALIDATED"
         value:
           type: string
@@ -177,4 +234,19 @@ components:
           example: "success"
         message:
           type: string
-          example: "Results successfully accepted by MIS."
+          example: "Результаты успешно приняты МИС."
+    
+    ErrorResponse:
+      type: object
+      required:
+        - error_code
+        - message
+      properties:
+        error_code:
+          type: string
+          description: Машиночитаемый код ошибки.
+          example: "VALIDATION_ERROR"
+        message:
+          type: string
+          description: Человекочитаемое описание причины ошибки.
+          example: "Некорректный формат поля iln (ожидается 12 цифр)."
