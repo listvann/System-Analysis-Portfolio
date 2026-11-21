@@ -110,10 +110,15 @@ The complete API contract is designed according to the OpenAPI 3.0 standard.
 ### Contract Visualization (Swagger UI)
 
 **1. Endpoint Description and Overview**
-![Swagger Endpoint](swagger-endpoint_en.png)
+![Swagger Endpoint](assets/swagger-endpoint_en.png)
 
-**2. Request Body Structure**
-![Swagger Request](swagger-request_en.png)
+**2. Request Headers (Parameters)**
+![Swagger Parameters](assets/swagger-parameters_en.png)
 
-**3. Response Codes and Scenarios**
-![Swagger Responses](swagger-responses_en.png)
+**3. Request Body Structure**
+![Swagger Request](assets/swagger-request_en.png)
+
+**4. Response Codes and Scenarios**
+![Swagger Responses 200 & 400](assets/swagger-responses_en-1.png)
+![Swagger Responses 401 & 404](assets/swagger-responses_en-2.png)
+![Swagger Responses 409 & 500](assets/swagger-responses_en-3.png)
