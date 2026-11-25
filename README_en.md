@@ -1,6 +1,6 @@
 *[🇷🇺 Русский](README.md) ∙ [🇬🇧 English](README_en.md)*
 
-# Anna Lee-Iu-Kun – System Analyst | HealthTech & API Integrations
+# Li-Iu-Kun Anna – System Analyst | HealthTech & API Integrations
 
 System Analyst with deep domain expertise in MedTech/HealthTech.
 
@@ -29,4 +29,5 @@ A comprehensive "To-Be" system design case focused on transitioning to a paperle
 **System Architecture & Integration Design:**
 * [Database Architecture (ERD & SQL queries)](project-lis/database_en.md)
 * [Integration Specification: Results Delivery (OpenAPI / Swagger) & Sequence Diagram](project-lis/api-results_en.md)
+* [REST vs. SOAP Comparison](rest-soap-comparison_en.md) — rationale for choosing REST/Webhook + RabbitMQ for EHR integration.
 * [Asynchronous Service Interaction via Message Broker (RabbitMQ)](project-lis/message-broker_en.md) *(in progress)*
