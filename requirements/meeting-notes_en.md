@@ -3,7 +3,7 @@
 **Project:** Next-Gen Laboratory Information System (LIS) Development  
 **Date:** October 26, 2026  
 **Attendees:** 
-*   Anna Li-Yu-Kun (System Analyst)
+*   Li-Iu-Kun Anna (System Analyst)
 *   Dr. John Smith (Lab Manager)
 
 ## 📌 Agenda
@@ -21,8 +21,8 @@
 
 | Task | Owner | Due Date | Status |
 | :--- | :--- | :--- | :--- |
-| Design the logical data model (ER Diagram) for the new barcode logic and lot tracking system | Anna Li-Yu-Kun | Oct 28, 2026 | Completed |
-| Provide the current container master data export and Accessioning SOPs | Dr. John Smith | Oct 29, 2026 | To Do |
-| Draft the API integration specification for result delivery (incorporating the Clinical Pathologist validation gateway) | Anna Li-Yu-Kun | Nov 02, 2026 | Completed |
+| Design the logical data model (ER Diagram) for the new barcode logic and lot tracking system | Li-Iu-Kun Anna | Oct 28, 2026 | Completed |
+| Provide the current container master data export and Accessioning SOPs | Dr. John Smith | Oct 29, 2026 | Completed |
+| Draft the API integration specification for result delivery (incorporating the Clinical Pathologist validation gateway) | Li-Iu-Kun Anna | Nov 02, 2026 | Completed |
 
 **Next Sync:** October 30, 2026 (Database Architecture Review).
