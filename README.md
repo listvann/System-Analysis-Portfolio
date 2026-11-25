@@ -28,4 +28,5 @@
 **Системная архитектура и проектирование интеграций:**
 * [Архитектура Базы Данных (ER-диаграмма и SQL-скрипты)](project-lis/database.md)
 * [Спецификация интеграции: передача результатов (OpenAPI / Swagger) и Sequence-диаграмма](project-lis/api-results.md)
+* [Сравнение REST и SOAP](rest-soap-comparison.md) — обоснование выбора REST/Webhook + RabbitMQ для интеграции с МИС.
 * [Асинхронное взаимодействие сервисов через брокер сообщений (RabbitMQ)](project-lis/message-broker.md) *(в разработке)*
