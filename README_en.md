@@ -20,14 +20,16 @@ My background includes 7 years of hands-on experience in PCR diagnostics laborat
 
 A comprehensive "To-Be" system design case focused on transitioning to a paperless workflow, automated reagent Lot Tracking, and seamless integration with liquid handling stations.
 
-**Business Analysis & Requirements Engineering:**
-* [Stakeholder Register & Power/Interest Grid](project-lis/stakeholders_en.md)
-* [In-depth Stakeholder Interview (5 Whys Technique)](requirements/interview-guide_en.md)
-* [Business Requirements Document (Meeting Minutes)](requirements/meeting-notes_en.md)
-* [Business Process Modeling As-Is & To-Be (BPMN 2.0)](project-lis/business-processes_en.md)
+**Business Analysis & Requirements:**
+* [Stakeholder Map & Power/Interest Grid](project-lis/stakeholders_en.md) — roles, interests, and responsibilities across the lab workflow.
+* [Stakeholder Deep-Dive Interview (5 Whys)](requirements/interview-guide_en.md) — root cause analysis of bottlenecks and manual errors at accessioning.
+* [Business Requirements Meeting Notes](requirements/meeting-notes_en.md) — agreed business rules, constraints, and lab scope.
+* [As-Is & To-Be Process Modeling (BPMN 2.0)](project-lis/business-processes_en.md) — shift from paper logs to barcode scanning and reagent lot tracking.
+* [User Stories & Use Cases](requirements/use-cases_en.md) — specimen accessioning, result validation flows, and acceptance criteria.
+* [Non-Functional Requirements (NFR)](requirements/nfr_en.md) — morning peak performance, EHR outage resilience, and HIPAA / GDPR data safeguards.
 
 **System Architecture & Integration Design:**
-* [Database Architecture (ERD & SQL queries)](project-lis/database_en.md)
-* [Integration Specification: Results Delivery (OpenAPI / Swagger) & Sequence Diagram](project-lis/api-results_en.md)
+* [Database Architecture (ER Diagram & SQL Scripts)](project-lis/database_en.md) — schema for orders, specimens, results, reagent lots, and `outbox_messages`.
+* [Result Delivery API Spec (OpenAPI / Swagger) & Sequence Diagram](project-lis/api-results_en.md) — `POST /api/v1/webhook/lab-results` contract, response codes, and idempotency.
 * [REST vs. SOAP Comparison](architecture-notes/rest-soap-comparison_en.md) — rationale for choosing REST/Webhook + RabbitMQ for EHR integration.
-* [Asynchronous Service Interaction via Message Broker (RabbitMQ)](project-lis/message-broker_en.md) 
+* [Asynchronous Messaging via Message Broker (RabbitMQ)](project-lis/message-broker_en.md) — Transactional Outbox, retry queues, and DLQ handling.
