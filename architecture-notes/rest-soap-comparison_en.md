@@ -48,8 +48,8 @@ A patient wants to view their PCR test result on their smartphone.
 Speed and traffic economy are critical for a mobile client. We don't need heavy XML envelopes. The mobile app calls the API via a simple `GET` request and instantly receives a lightweight JSON file with the result and reference values.
 
 **Case 2: LIS Integration with State Health Registries (Choice: SOAP)**
-The laboratory is required to upload infectious test results to a state registry. 
-State gateways demand guaranteed delivery and the highest level of security. Packet loss is unacceptable. SOAP is ideal here because of its strict validation against the WSDL contract and built-in encryption, even though parsing XML is more complex and time-consuming.
+The laboratory is required to report notifiable infectious disease results to a state health registry. 
+Public health gateways demand strict delivery guarantees, rigid contract validation, and strong message-level security. Dropped payloads are unacceptable. SOAP fits here because of strict WSDL schema enforcement and built-in security standards, even though XML parsing is heavier than JSON.
 
 ## Summary
 If you need speed, a lightweight footprint, and web/mobile frontend integration — choose **REST + JSON**. 
