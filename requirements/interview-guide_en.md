@@ -1,6 +1,6 @@
 # Stakeholder Interview Guide
 
-**Stakeholder:** Lab Manager / CMO
+**Stakeholder:** Lab Manager
 
 **Topic:** Specimen routing issues and Turnaround Time (TAT) violations.
 
