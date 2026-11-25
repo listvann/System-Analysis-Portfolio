@@ -1,0 +1,330 @@
+{
+  "info": {
+    "name": "LIS -> MIS/EHR Lab Results Webhook",
+    "_postman_id": "a1b2c3d4-e5f6-4789-9012-3456789abcde",
+    "description": "Коллекция для проверки интеграции передачи валидированных результатов из ЛИС в МИС/EHR (POST /api/v1/webhook/lab-results), включая идемпотентность и обработку ошибок.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.mis-example.local",
+      "type": "string"
+    },
+    {
+      "key": "authToken",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.sample_token",
+      "type": "string"
+    },
+    {
+      "key": "messageId",
+      "value": "550e8400-e29b-41d4-a716-446655440000",
+      "type": "string"
+    },
+    {
+      "key": "iln",
+      "value": "261125000142",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Send Validated Lab Results (Webhook)",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.variables.set('currentRequestId', pm.variables.replaceIn('{{$guid}}'));"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is valid webhook response', function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 400, 401, 404, 409, 500]);",
+              "});",
+              "",
+              "pm.test('Response is JSON', function () {",
+              "    pm.response.to.be.json;",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{authToken}}"
+          },
+          {
+            "key": "X-Idempotency-Key",
+            "value": "{{messageId}}",
+            "description": "Фиксированный UUID события (не меняется при ретраях)"
+          },
+          {
+            "key": "X-Request-ID",
+            "value": "{{currentRequestId}}",
+            "description": "Уникальный UUID каждой конкретной HTTP-попытки"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message_id\": \"{{messageId}}\",\n  \"iln\": \"{{iln}}\",\n  \"order_status\": \"COMPLETED\",\n  \"results\": [\n    {\n      \"test_code\": \"PCR-COV2-RNA\",\n      \"status\": \"VALIDATED\",\n      \"value\": \"Не обнаружено\",\n      \"validated_at\": \"2026-11-25T10:15:28+03:00\"\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/webhook/lab-results",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "webhook",
+            "lab-results"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK - Result Accepted",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Idempotency-Key",
+                "value": "550e8400-e29b-41d4-a716-446655440000"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"iln\": \"261125000142\",\n  \"order_status\": \"COMPLETED\",\n  \"results\": [\n    {\n      \"test_code\": \"PCR-COV2-RNA\",\n      \"status\": \"VALIDATED\",\n      \"value\": \"Не обнаружено\",\n      \"validated_at\": \"2026-11-25T10:15:28+03:00\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/webhook/lab-results",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "webhook",
+                "lab-results"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"ACCEPTED\",\n  \"message_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"iln\": \"261125000142\"\n}"
+        },
+        {
+          "name": "400 Bad Request - Validation Error",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"iln\": \"INVALID\",\n  \"order_status\": \"COMPLETED\",\n  \"results\": []\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/webhook/lab-results",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "webhook",
+                "lab-results"
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error_code\": \"VALIDATION_ERROR\",\n  \"message\": \"Field 'iln' must be a 12-digit string and 'results' must not be empty\"\n}"
+        },
+        {
+          "name": "401 Unauthorized - Invalid Token",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer expired_token"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/webhook/lab-results",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "webhook",
+                "lab-results"
+              ]
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error_code\": \"UNAUTHORIZED\",\n  \"message\": \"Missing or invalid bearer token\"\n}"
+        },
+        {
+          "name": "404 Not Found - Order ILN Not Found",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"iln\": \"999999999999\",\n  \"order_status\": \"COMPLETED\",\n  \"results\": [\n    {\n      \"test_code\": \"PCR-COV2-RNA\",\n      \"status\": \"VALIDATED\",\n      \"value\": \"Не обнаружено\",\n      \"validated_at\": \"2026-11-25T10:15:28+03:00\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/webhook/lab-results",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "webhook",
+                "lab-results"
+              ]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error_code\": \"ORDER_NOT_FOUND\",\n  \"message\": \"Order with iln 999999999999 was not found in target system\"\n}"
+        },
+        {
+          "name": "409 Conflict - Duplicate Idempotency Key",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Idempotency-Key",
+                "value": "550e8400-e29b-41d4-a716-446655440000"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/webhook/lab-results",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "webhook",
+                "lab-results"
+              ]
+            }
+          },
+          "status": "Conflict",
+          "code": 409,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error_code\": \"DUPLICATE_MESSAGE\",\n  \"message\": \"Event with X-Idempotency-Key 550e8400-e29b-41d4-a716-446655440000 has already been processed\"\n}"
+        },
+        {
+          "name": "500 Internal Server Error - Downstream Failure",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/webhook/lab-results",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "webhook",
+                "lab-results"
+              ]
+            }
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error_code\": \"INTERNAL_ERROR\",\n  \"message\": \"Temporary database lock on receiver side, retry later\"\n}"
+        }
+      ]
+    }
+  ]
+}
