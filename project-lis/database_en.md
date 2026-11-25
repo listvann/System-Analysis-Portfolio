@@ -10,9 +10,9 @@ The core of the system is a barcode generation algorithm that automates specimen
 *   **INZ (Order Root):** The core of the order — the first 9 digits of the ILN (e.g., `123456789`).
 *   **Container Code:** A unique 3-digit code (e.g., `130`) defining the specimen type and target department (e.g., serum for Molecular Diagnostics).
 *   **Specimen Barcode (on the tube):** A 12-digit code generated using the formula: **INZ + Container Code** (e.g., `123456789130`).
-*   **Security & Role-Based Access Control (RBAC):** While the physical tube may contain the patient's name and collection date for the phlebotomist's convenience, the LIS restricts lab technicians from accessing the `Patients` table. Technicians strictly work with the `barcode` (INZ + Container Code). Access to demographic data and clinical history is granted only to the Clinical Pathologist during validation.
+*   **Security & Role-Based Access Control (RBAC):** While the physical tube may contain the patient's name and collection date for the phlebotomist's convenience, the LIS restricts lab technicians from accessing the `Patients` table. Technicians strictly work with the `barcode` (INZ + Container Code). Access to demographic data and clinical history is granted only to the Clinical Pathologist during validation.  
 
----
+> **Reagent Lot Tracking (`lot_id`):** The `lot_id` field in `Results` is used for internal quality assurance and reagent lot traceability within the LIS and is not included in the outbound EHR webhook payload.  
 
 ## Entity Descriptions (Tables)
 
