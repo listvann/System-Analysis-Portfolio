@@ -16,6 +16,9 @@
 2.  **New Barcode Algorithm:** Approved the transition from the legacy barcode format to a 12-digit structure: **Order Root / INZ (9 digits) + Container Code (3 digits)**.
 3.  **Automated Routing:** The 3-digit Container Code will act as the primary lookup key in the LIS database to unambiguously identify the specimen type and its destination (e.g., PCR Genetics, ELISA). Routing will be system-enforced via barcode scanning rather than visual inspection.
 4.  **Implement Automated Lot Tracking:** Manual well counting and reagent deduction by lab technicians are deprecated. Approved the solution to automatically deduct tests from reagent lots upon virtual rack generation.
+5. **Hard Stop on Mismatched Routing:** Scanning a tube whose container code belongs to another department triggers a hard block, prevents virtual rack assignment and reagent deduction, and displays an alert with the target department.
+6. **Morning Peak Capacity:** The workflow and integration pipeline are sized for morning accessioning peak hours without scanner UI lag or dropped events.
+7. **Offline Fallback Procedure (for Urgent/STAT Specimens):** During temporary LIS unavailability, operations rely on the 12-digit barcode (`INZ + Container Code`) and a shift log for urgent specimens, syncing data once connectivity is restored.
 
 ## 📝 Action Items
 
