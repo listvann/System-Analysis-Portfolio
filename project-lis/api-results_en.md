@@ -6,11 +6,10 @@
 **Security:** Authorization via `Bearer Token` (OAuth 2.0 / JWT) + `X-Request-ID` header for distributed tracing.
 
 ## Business Rules
-1. **Identification & Idempotency:** The EHR expects the **ILN** (12-digit Order Number) rather than the physical specimen barcode. The ILN serves as the primary key linking the result to the patient's EHR profile. To prevent duplicate report generation during retries, the LIS sends a `message_id` ensuring idempotency.
+1. **Identification & Idempotency:** The EHR expects the **ILN** (12-digit Order Number) rather than the physical specimen barcode. The ILN serves as the primary key linking the result to the patient's EHR profile. To prevent duplicate report generation during retries, the LIS sends `message_id` in the payload and the `X-Idempotency-Key` header. On initial delivery of an event, `X-Idempotency-Key` equals `message_id` and remains unchanged across all retries for that message, while `X-Request-ID` is generated fresh per HTTP attempt for distributed tracing.
 2. **Dynamic Reference Ranges:** Reference ranges are calculated dynamically by the LIS based on the patient's gender and DOB. The EHR receives pre-calculated textual values.
 3. **Legal Compliance & E-Signature:** The payload strictly includes the executing laboratory's legal entity details and the authorizing Clinical Pathologist's full name.
-
----
+4. **Partial Order Delivery:** The webhook is triggered as individual assays are validated, without waiting for every test in the order to finish. Only items with `VALIDATED` or `REJECTED` status are included in `results`. While `PRELIMINARY` assays remain in the order, `order_status` is sent as `IN_PROGRESS`; once all ordered tests are finalized, it is sent as `COMPLETED`.
 
 ## Data Contract
 **Endpoint:** `POST /api/v1/webhook/lab-results`  
@@ -66,6 +65,7 @@
 | `500 Internal Error` | Server Error | Internal Server Error on the EHR side. |
 
 ### Key Parameters (Data Dictionary)
+> **Note:** The table below lists only the core contract parameters critical for business logic and routing. For the complete request and response schema, refer to the OpenAPI specification in [api-results-swagger_en.yaml](api-results-swagger_en.yaml) (`LabResultPayload`).
 
 | Parameter | Type | Required | Description |
 | :--- | :--- | :--- | :--- |
