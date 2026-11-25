@@ -24,6 +24,8 @@
 * [Глубинное интервью со стейкхолдером (Техника 5 Whys)](requirements/interview-guide.md)
 * [Протокол сбора бизнес-требований](requirements/meeting-notes.md)
 * [Моделирование бизнес-процессов As-Is и To-Be (BPMN 2.0)](project-lis/business-processes.md)
+* [User Stories и Use Cases](requirements/use-cases.md) — сценарии приёма проб, валидации результатов и критерии приёмки (Given / When / Then).
+* [Нефункциональные требования (NFR)](requirements/nfr.md) — производительность при утреннем пике, надёжность доставки, работа при сбоях МИС и защита данных по 152-ФЗ.
 
 **Системная архитектура и проектирование интеграций:**
 * [Архитектура Базы Данных (ER-диаграмма и SQL-скрипты)](project-lis/database.md)
